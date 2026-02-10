@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayo Berhitung! - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
+        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
+        .card { transition: all 0.3s; }
+        .card:hover { transform: scale(1.05); }
+        .grad-campuran { background: linear-gradient(135deg, #FF7E5F, #FEB47B); }
+        .grad-tambah { background: linear-gradient(135deg, #00D2FF, #3A7BD5); }
+        .grad-kurang { background: linear-gradient(135deg, #FF5F6D, #FFC371); }
+        .grad-kali { background: linear-gradient(135deg, #B184FF, #8E2DE2); }
+        .grad-bagi { background: linear-gradient(135deg, #42E695, #3BB2B8); }
+    </style>
+</head>
+<body class="flex flex-col items-center p-8">
+    <div class="max-w-md w-full text-center mt-12">
+        <h1 class="text-5xl font-black text-slate-800 mb-2">Ayo <span class="text-indigo-600">Berhitung!</span></h1>
+        <p class="text-slate-400 font-medium mb-12">Pilih tantanganmu dan raih skor tertinggi 🚀</p>
+
+        <div class="grid grid-cols-2 gap-4">
+            <a href="game.html?mode=mix" class="card grad-campuran p-8 rounded-[2.5rem] text-white flex flex-col items-center">
+                <span class="text-4xl mb-3">🔄</span><span class="font-bold text-xl">Campuran</span>
+            </a>
+            <a href="game.html?mode=+" class="card grad-tambah p-8 rounded-[2.5rem] text-white flex flex-col items-center">
+                <span class="text-4xl mb-3">＋</span><span class="font-bold text-xl">Tambah</span>
+            </a>
+            <a href="game.html?mode=-" class="card grad-kurang p-8 rounded-[2.5rem] text-white flex flex-col items-center">
+                <span class="text-4xl mb-3">－</span><span class="font-bold text-xl">Kurang</span>
+            </a>
+            <a href="game.html?mode=*" class="card grad-kali p-8 rounded-[2.5rem] text-white flex flex-col items-center">
+                <span class="text-4xl mb-3">×</span><span class="font-bold text-xl">Kali</span>
+            </a>
+            <a href="game.html?mode=/" class="card grad-bagi p-8 rounded-[2.5rem] text-white flex flex-col items-center">
+                <span class="text-4xl mb-3">÷</span><span class="font-bold text-xl">Bagi</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

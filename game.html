@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bermain - Ayo Berhitung!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
+        body { font-family: 'Poppins', sans-serif; background: #54d1ed; min-height: 100vh; display: flex; align-items: center; justify-content: center; p: 20px; }
+        .glass-card { background: white; border-radius: 4rem; padding: 3rem; width: 100%; max-width: 500px; text-align: center; }
+        .choice-btn { background: #f8fafc; border-radius: 1.5rem; padding: 1.5rem; font-size: 1.8rem; font-weight: 900; color: #94a3b8; width: 100%; }
+        .correct { background: #2ed573 !important; color: white !important; }
+        .wrong { background: #ff4757 !important; color: white !important; }
+    </style>
+</head>
+<body>
+    <div class="w-full max-w-lg">
+        <div class="flex justify-between items-center mb-8 px-2">
+            <a href="index.html" class="bg-white/40 p-4 rounded-3xl shadow-sm text-blue-700">🏠</a>
+            <div class="bg-white/40 py-3 px-8 rounded-3xl shadow-sm font-black text-blue-700">🏆 <span id="skor-txt">0</span></div>
+        </div>
+
+        <div class="glass-card shadow-2xl relative">
+            <div class="inline-block bg-slate-100 px-6 py-1 rounded-full text-[10px] font-black text-slate-400 mb-8 tracking-widest" id="lvl-badge">LEVEL 1</div>
+            
+            <div class="flex items-center justify-center gap-4 mb-12">
+                <span id="n1" class="text-6xl font-black text-slate-800">0</span>
+                <span id="op-box" class="bg-blue-100 p-4 rounded-2xl text-blue-600 font-bold text-2xl">+</span>
+                <span id="n2" class="text-6xl font-black text-slate-800">0</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4" id="pilihan-grid"></div>
+
+            <div id="footer-action" class="hidden mt-8">
+                <button onclick="generateSoal()" id="btn-next" class="bg-red-500 text-white px-10 py-4 rounded-full font-black shadow-lg w-full">✕ COBA LAGI 😅</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        let mode = params.get('mode') || '+';
+        let level = 1, skor = 0, benarStreak = 0, jawabanAsli = 0;
+
+        function generateSoal() {
+            document.getElementById('footer-action').classList.add('hidden');
+            document.getElementById('lvl-badge').innerText = "LEVEL " + level;
+
+            // Naikkan angka soal sesuai level
+            let r = level * 20;
+            let a = Math.floor(Math.random() * r) + 5, b = Math.floor(Math.random() * r) + 5;
+
+            // Logika Operator
+            let currentOp = (mode === 'mix') ? ['+','-','*'][Math.floor(Math.random()*3)] : mode;
+            if(currentOp === '+') jawabanAsli = a + b;
+            else if(currentOp === '-') { if(a < b) [a, b] = [b, a]; jawabanAsli = a - b; }
+            else if(currentOp === '*') { a = Math.floor(Math.random()*(level+5))+2; b = Math.floor(Math.random()*5)+2; jawabanAsli = a * b; }
+            else { jawabanAsli = a; a = a * b; } // Untuk Pembagian
+
+            document.getElementById('n1').innerText = a;
+            document.getElementById('n2').innerText = b;
+            document.getElementById('op-box').innerText = (currentOp === '*' ? '×' : currentOp === '/' ? '÷' : currentOp);
+
+            // Buat Pilihan
+            let p = [jawabanAsli];
+            while(p.length < 4) {
+                let s = jawabanAsli + (Math.floor(Math.random() * 20) - 10);
+                if(!p.includes(s) && s >= 0) p.push(s);
+            }
+            p.sort(() => Math.random() - 0.5);
+
+            const grid = document.getElementById('pilihan-grid');
+            grid.innerHTML = "";
+            p.forEach(val => {
+                let btn = document.createElement('button');
+                btn.className = "choice-btn shadow-sm";
+                btn.innerText = val;
+                btn.onclick = () => {
+                    const all = document.querySelectorAll('.choice-btn');
+                    all.forEach(x => x.disabled = true);
+                    if(val === jawabanAsli) {
+                        btn.classList.add('correct');
+                        skor += 10; benarStreak++;
+                        document.getElementById('skor-txt').innerText = skor;
+                        if(benarStreak === 5) { level++; benarStreak = 0; document.getElementById('btn-next').innerText = "LEVEL UP! 🚀"; }
+                        else { document.getElementById('btn-next').innerText = "BENAR! LANJUT ("+benarStreak+"/5)"; }
+                        document.getElementById('btn-next').className = "bg-green-500 text-white px-10 py-4 rounded-full font-black shadow-lg w-full";
+                    } else {
+                        btn.classList.add('wrong'); benarStreak = 0;
+                        document.getElementById('btn-next').innerText = "✕ COBA LAGI 😅";
+                        document.getElementById('btn-next').className = "bg-red-500 text-white px-10 py-4 rounded-full font-black shadow-lg w-full";
+                    }
+                    document.getElementById('footer-action').classList.remove('hidden');
+                };
+                grid.appendChild(btn);
+            });
+        }
+        generateSoal();
+    </script>
+</body>
+</html>
