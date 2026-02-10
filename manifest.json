@@ -1,0 +1,17 @@
+{
+  "name": "Ayo Berhitung!",
+  "short_name": "Berhitung",
+  "description": "Game asah otak matematika untuk seru-seruan!",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#54d1ed",
+  "theme_color": "#54d1ed",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/5351/5351331.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
